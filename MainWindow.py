@@ -7,7 +7,16 @@
 # WARNING! All changes made in this file will be lost!
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import uic, QtCore, QtGui, QtWidgets
+
+import Adafruit_DHT
+import RPi.GPIO as GPIO
+import sys
+
+
+from tempyhumedadv3 import programa_prueba
+
+
 
 
 class Ui_MainWindow(object):
@@ -76,13 +85,14 @@ class Ui_MainWindow(object):
         self.figura1 = QtWidgets.QLabel(self.centralwidget)
         self.figura1.setGeometry(QtCore.QRect(130, 290, 301, 211))
         self.figura1.setText("")
-        self.figura1.setPixmap(QtGui.QPixmap("aire_encendido.png"))
+        self.figura1.setPixmap(QtGui.QPixmap("/home/pi/Proyecto/ProyectoSDA/aire_encendido.jpeg"))
+
         self.figura1.setScaledContents(True)
         self.figura1.setObjectName("figura1")
         self.figura2 = QtWidgets.QLabel(self.centralwidget)
         self.figura2.setGeometry(QtCore.QRect(530, 290, 301, 201))
         self.figura2.setText("")
-        self.figura2.setPixmap(QtGui.QPixmap("aire_apagado.png"))
+        self.figura2.setPixmap(QtGui.QPixmap("aire_apagado.jpeg"))
         self.figura2.setScaledContents(True)
         self.figura2.setObjectName("figura2")
         self.TextoParamConfigEstatico = QtWidgets.QLabel(self.centralwidget)
@@ -173,7 +183,7 @@ class Ui_MainWindow(object):
         print (self.ComboBoxTempMax.currentText())
     
     def pressedInicio(self):
-        print ("Iniciar Programa")
+        programa=programa_prueba(self)
     
 
 if __name__ == "__main__":
