@@ -18,7 +18,7 @@ class programa_prueba(QtCore.QObject):
         self.humedad=0
         self.temperaturaEstablecida=21
         self.modo_operacion=0
-        self.tiempoConmutacionAires = 5000
+        self.tiempoConmutacionAires = 10000
         self.bandera_Relay = 1
 
         GPIO.setmode(GPIO.BCM)
@@ -35,11 +35,12 @@ class programa_prueba(QtCore.QObject):
         # con ste codigo se logra iniciar la lectura de temperatura
         self.timerCheckSensorTemp = QtCore.QTimer()
         self.timerCheckSensorTemp.timeout.connect(self.timeouttimerCheckSensorTemp)
-        self.timerCheckSensorTemp.start(5000)
+        self.timerCheckSensorTemp.start(3000)
     # checkeo la temperatura y actualizo el estado de operacion    
     def timeouttimerCheckSensorTemp(self):
         self.humedad, self.temperatura = Adafruit_DHT.read_retry(self.sensor, self.pin_sensor)
-        print('Temp={0:0.1f}*C Humidity={1:0.1f}%'.format(self.temperatura, self.humedad)) 
+        #print('Temp={0:0.1f}*C Humidity={1:0.1f}%'.format(self.temperatura, self.humedad))
+        #print ('Temp={0:0.1f}*C Humidity={1:0.1f}%'.format(self.temperaturaEstablecida, self.humedad))
         if (self.temperatura >= self.temperaturaEstablecida):
             self.modo_operacion = 1
         elif (self.temperatura < self.temperaturaEstablecida):
@@ -63,30 +64,31 @@ class programa_prueba(QtCore.QObject):
         GPIO.output(self.pin_relay1, GPIO.LOW)
         GPIO.output(self.pin_relay2, GPIO.HIGH)
         if not self.timerInicioDeSecuenciaRelay.isActive():
-            self.bandera_relay=1
+            #print ("secuencia 1 1 vez")
+            self.bandera_Relay=1
             self.timerInicioDeSecuenciaRelay.start(self.tiempoConmutacionAires)
-
+          
 
             
     def inicioDeSecuenciaRelay2(self):
         GPIO.output(self.pin_relay1, GPIO.HIGH)
         GPIO.output(self.pin_relay2, GPIO.LOW)
         if not self.timerInicioDeSecuenciaRelay2.isActive():
-            self.bandera_relay=2
+            #print ("secuencia 2 1 vez")
+            self.bandera_Relay=2
             self.timerInicioDeSecuenciaRelay2.start(self.tiempoConmutacionAires)
- 
-
+           
 
     def timeoutTimerInicioDeSecuencia(self):
-        self.inicioDeSecuenciaRelay2()
-        self.bandera_relay=2
-        self.timerInicioDeSecuenciaRelay2.start(self.tiempoConmutacionAires)
+        #self.inicioDeSecuenciaRelay2()
+        #print ("termino el conteo 1")
+        self.bandera_Relay=2
         self.timerInicioDeSecuenciaRelay.stop()
         
     def timeoutTimerInicioDeSecuencia2(self):
-        self.inicioDeSecuenciaRelay()
-        self.bandera_relay=1
-        self.timerInicioDeSecuenciaRelay.start(self.tiempoConmutacionAires)
+        #self.inicioDeSecuenciaRelay()
+        #print ("termino el conteo 2")
+        self.bandera_Relay=1
         self.timerInicioDeSecuenciaRelay2.stop()
 
 if __name__ == "__main__":

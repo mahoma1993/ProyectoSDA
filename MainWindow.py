@@ -150,6 +150,16 @@ class Ui_MainWindow(object):
         
         self.BotonCambiarParam.clicked.connect(self.pressedCambio)
         self.BotonIniciar.clicked.connect(self.pressedInicio)
+        self.programa_prueba_obj = programa_prueba()
+        
+        self.timerRefrescarValores = QtCore.QTimer()
+        self.timerRefrescarValores.timeout.connect(self.timeouttimerRefrescarValores)
+        self.timerRefrescarValores.start(3000)
+        index = self.ComboBoxTempMax.findText(str(self.programa_prueba_obj.temperaturaEstablecida))
+        self.ComboBoxTempMax.setCurrentIndex(index)
+        index2 = self.ComboBoxTconmu.findText(str((self.programa_prueba_obj.tiempoConmutacionAires)//1000))
+        self.ComboBoxTconmu.setCurrentIndex(index2)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -166,9 +176,9 @@ class Ui_MainWindow(object):
         self.TextoParamConfigEstatico.setText(_translate("MainWindow", "Parametros de configuración "))
         self.TextoTempConmuEstatico.setText(_translate("MainWindow", "T.Conmutacion (Seg) :"))
         self.TextoMaxTempEstatico.setText(_translate("MainWindow", "Temp. Maxima (C):"))
-        self.ComboBoxTconmu.setItemText(0, _translate("MainWindow", "2"))
-        self.ComboBoxTconmu.setItemText(1, _translate("MainWindow", "5"))
-        self.ComboBoxTconmu.setItemText(2, _translate("MainWindow", "10"))
+        self.ComboBoxTconmu.setItemText(0, _translate("MainWindow", "10"))
+        self.ComboBoxTconmu.setItemText(1, _translate("MainWindow", "30"))
+        self.ComboBoxTconmu.setItemText(2, _translate("MainWindow", "60"))
         self.ComboBoxTempMax.setItemText(0, _translate("MainWindow", "10"))
         self.ComboBoxTempMax.setItemText(1, _translate("MainWindow", "15"))
         self.ComboBoxTempMax.setItemText(2, _translate("MainWindow", "20"))
@@ -179,11 +189,35 @@ class Ui_MainWindow(object):
         self.BotonIniciar.setText(_translate("MainWindow", "Iniciar"))
         
     def pressedCambio(self):
-        print (self.ComboBoxTconmu.currentText())
-        print (self.ComboBoxTempMax.currentText())
-    
+        #print (self.ComboBoxTconmu.currentText())
+        #print (self.ComboBoxTempMax.currentText())
+        self.programa_prueba_obj.tiempoConmutacionAires= int(self.ComboBoxTconmu.currentText())*1000
+        self.programa_prueba_obj.temperaturaEstablecida= int(self.ComboBoxTempMax.currentText())
+
     def pressedInicio(self):
         print ("inicio")
+        #self.programa_prueba_obj.modoSistemRelay()
+        #self.TextoTempDinamico.setText(str (self.programa_prueba_obj.temperatura))
+        
+    def timeouttimerRefrescarValores(self):
+       self.TextoTempDinamico.setText(str (self.programa_prueba_obj.temperatura))
+       self.TextoHumDinamico.setText(str (self.programa_prueba_obj.humedad))
+
+       
+       if (self.programa_prueba_obj.modo_operacion==1):
+            self.figura1.setPixmap(QtGui.QPixmap("aire_encendido.jpeg"))
+            self.figura2.setPixmap(QtGui.QPixmap("aire_encendido.jpeg"))
+       elif(self.programa_prueba_obj.bandera_Relay==1):
+            #print ("entre1")
+            self.figura1.setPixmap(QtGui.QPixmap("/home/pi/Proyecto/ProyectoSDA/aire_encendido.jpeg"))
+            self.figura2.setPixmap(QtGui.QPixmap("/home/pi/Proyecto/ProyectoSDA/aire_apagado.jpeg"))
+       else:
+            #print ("entre2")
+            self.figura2.setPixmap(QtGui.QPixmap("/home/pi/Proyecto/ProyectoSDA/aire_encendido.jpeg"))
+            self.figura1.setPixmap(QtGui.QPixmap("/home/pi/Proyecto/ProyectoSDA/aire_apagado.jpeg"))
+            
+
+        
         
     
 
