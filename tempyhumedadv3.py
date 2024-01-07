@@ -16,9 +16,9 @@ class programa_prueba(QtCore.QObject):
         self.pin_relay2 = 27
         self.temperatura= 0
         self.humedad=0
-        self.temperaturaEstablecida=21
+        self.temperaturaEstablecida=25
         self.modo_operacion=0
-        self.tiempoConmutacionAires = 10000
+        self.tiempoConmutacionAires = 20000
         self.bandera_Relay = 1
 
         GPIO.setmode(GPIO.BCM)
@@ -43,7 +43,7 @@ class programa_prueba(QtCore.QObject):
         #print ('Temp={0:0.1f}*C Humidity={1:0.1f}%'.format(self.temperaturaEstablecida, self.humedad))
         if (self.temperatura >= self.temperaturaEstablecida):
             self.modo_operacion = 1
-        elif (self.temperatura < self.temperaturaEstablecida):
+        elif (self.temperatura < self.temperaturaEstablecida - 3):
             self.modo_operacion = 0
         self.modoSistemRelay()
             
