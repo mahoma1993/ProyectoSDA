@@ -183,7 +183,8 @@ class Ui_MainWindow(object):
         print (self.ComboBoxTempMax.currentText())
     
     def pressedInicio(self):
-        programa=programa_prueba(self)
+        print ("inicio")
+        
     
 
 if __name__ == "__main__":

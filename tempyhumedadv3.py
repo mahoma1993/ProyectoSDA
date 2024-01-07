@@ -8,8 +8,8 @@ sensor = Adafruit_DHT.DHT11
 
 
 class programa_prueba(QtCore.QObject):  
-    def __init__(self, parent):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
         self.sensor = Adafruit_DHT.DHT11
         self.pin_sensor = 4
         self.pin_relay1 = 17
@@ -88,6 +88,12 @@ class programa_prueba(QtCore.QObject):
         self.bandera_relay=1
         self.timerInicioDeSecuenciaRelay.start(self.tiempoConmutacionAires)
         self.timerInicioDeSecuenciaRelay2.stop()
+
+if __name__ == "__main__":
+    app = QtCore.QCoreApplication([])  
+    prueba = programa_prueba()
+    #prueba.modoSistemRelay()
+    sys.exit(app.exec_())
 
 
 
