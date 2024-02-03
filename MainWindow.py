@@ -155,7 +155,7 @@ class Ui_MainWindow(object):
         
         self.timerRefrescarValores = QtCore.QTimer()
         self.timerRefrescarValores.timeout.connect(self.timeouttimerRefrescarValores)
-        self.timerRefrescarValores.start(100)
+        self.timerRefrescarValores.start(3000)
         index = self.ComboBoxTempMax.findText(str(self.programa_prueba_obj.temperaturaEstablecida))
         self.ComboBoxTempMax.setCurrentIndex(index)
         index2 = self.ComboBoxTconmu.findText(str((self.programa_prueba_obj.tiempoConmutacionAires)//1000))

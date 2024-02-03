@@ -41,7 +41,7 @@ class programa_prueba(QtCore.QObject):
         # con ste codigo se logra iniciar la lectura de temperatura
         self.timerCheckSensorTemp = QtCore.QTimer()
         self.timerCheckSensorTemp.timeout.connect(self.timeouttimerCheckSensorTemp)
-        self.timerCheckSensorTemp.start(1000)
+        self.timerCheckSensorTemp.start(3000)
         
         self.correo_enviado = False
         self.timer_enviar_correo = QtCore.QTimer()
@@ -69,8 +69,8 @@ class programa_prueba(QtCore.QObject):
     def modoSistemRelay(self):
         if (self.modo_operacion == 1 ):
             print ("hola entre para q se prendan los dos")
-            GPIO.output(self.pin_relay1, GPIO.LOW)
-            GPIO.output(self.pin_relay2, GPIO.LOW)
+            GPIO.output(self.pin_relay1, GPIO.HIGH)
+            GPIO.output(self.pin_relay2, GPIO.HIGH)
             self.timerInicioDeSecuenciaRelay.stop()
             self.timerInicioDeSecuenciaRelay2.stop()
         else:
